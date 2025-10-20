@@ -5,7 +5,8 @@ class pid_controller:
         self.Kd = Kd
 
     
-    def get_action(self, reference: float, measurement: float, previous_e) -> float:
-        error = reference - measurement
-        action = self.Kp * error + self.Kd * (error - previous_e)
-        return action, error
+    def get_action(self, current_error, errors_sum, previous_error) -> float:
+        action = (self.Kp * current_error +
+                  self.Ki * errors_sum +
+                  self.Kd * (current_error - previous_error))
+        return action
